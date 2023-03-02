@@ -61,7 +61,7 @@ export default function Search() {
         </button>
       </form>
       {queryList.length > 0 && (
-        <ul className='absolute z-20 mt-2 h-56 w-full divide-y divide-gray-200/50 overflow-y-auto text-xl text-gray-200'>
+        <ul className='absolute z-20 mt-2 h-64 w-full divide-y divide-gray-200/50 overflow-y-auto rounded-lg bg-gradient-to-t from-transparent to-black/50 text-xl text-gray-200'>
           {queryList.map((city) => (
             <li
               key={city.id}

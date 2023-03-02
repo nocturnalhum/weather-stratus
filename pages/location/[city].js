@@ -7,6 +7,7 @@ const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
 export default function City({ currentWeather, forecast }) {
   const [toggle, setToggle] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -82,7 +83,6 @@ export async function getServerSideProps({ params }) {
       notFound: true,
     };
   }
-
   return {
     props: { currentWeather, forecast },
   };

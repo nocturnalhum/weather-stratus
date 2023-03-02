@@ -29,6 +29,9 @@ module.exports = {
         mountains:
           "url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80')",
       },
+      animation: {
+        'spin-slow': 'spin 2.5s ease-out infinite',
+      },
     },
   },
   plugins: [Myclass],
