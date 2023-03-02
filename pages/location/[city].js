@@ -17,10 +17,10 @@ export default function City({ currentWeather, forecast }) {
   return (
     <div>
       <Layout title={currentWeather.name}>
-        <div className='group m-auto max-w-3xl text-white perspective'>
+        <div className='group m-auto max-w-3xl px-2 text-white perspective'>
           <button
             onClick={handleToggle}
-            className='mb-2 w-40  rounded-full bg-black/20 p-2 backdrop-blur-sm'
+            className='mb-2 w-40  rounded-full bg-black/50 p-2 font-semibold backdrop-blur-sm'
           >
             <span>See: </span>
             {!toggle ? 'Forecast' : 'Current'}

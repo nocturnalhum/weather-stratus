@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import cities from '@/lib/city.list.json';
 import { BsSearch } from 'react-icons/bs';
 import Link from 'next/link';
+import useDebounce from '@/lib/useDebounce';
 
 export default function Search() {
   const [query, setQuery] = useState('');
   const [queryList, setQueryList] = useState([]);
   const [notFound, setNotFound] = useState(false);
+
+  const debounceSearch = useDebounce(query, 500);
 
   const onChange = (e) => {
     const { value } = e.target;
@@ -20,17 +23,17 @@ export default function Search() {
   useEffect(() => {
     const getLocations = async () => {
       // Prevent illegal query searches:
-      if (/^[!@#$%&*()]+$/.test(query)) {
+      if (/^[!@#$%&*()]+$/.test(debounceSearch)) {
         setNotFound(true);
         return;
       }
       // Get Geo Locations based on query search:
-      if (query.length < 1) {
+      if (debounceSearch.length < 1) {
         setQueryList([]);
       } else {
-        if (query.trim().length > 1) {
-          const data = await cities.filter((city) =>
-            city.name.toLowerCase().startsWith(query.toLowerCase())
+        if (debounceSearch.trim().length > 1) {
+          const data = cities.filter((city) =>
+            city.name.toLowerCase().startsWith(debounceSearch.toLowerCase())
           );
           // console.log('Locations:', data);
           setQueryList(data.slice(0, 100));
@@ -38,13 +41,13 @@ export default function Search() {
       }
     };
     getLocations();
-  }, [query]);
+  }, [debounceSearch]);
 
   return (
     <div className='container relative m-auto max-w-lg py-6'>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className='flex rounded-xl border p-2 px-4'
+        className='mx-2 flex rounded-xl border p-2 px-4'
       >
         <input
           type='text'
@@ -69,8 +72,10 @@ export default function Search() {
                 onClick={() => setQuery('')}
                 className='cursor-pointer'
               >
-                {city.name}, {city.state ? ` ${city.state}, ` : ''}{' '}
-                {city.country}
+                <div>
+                  {city.name}, {city.state ? ` ${city.state}, ` : ''}{' '}
+                  {city.country}
+                </div>
               </Link>
             </li>
           ))}

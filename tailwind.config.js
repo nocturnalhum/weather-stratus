@@ -9,7 +9,7 @@ const Myclass = plugin(function ({ addUtilities }) {
       transformStyle: 'preserve-3d',
     },
     '.perspective': {
-      perspective: '1000px',
+      perspective: '2000px',
     },
   });
 });
