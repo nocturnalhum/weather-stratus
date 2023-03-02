@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cities from '@/lib/city.list.json';
 import { BsSearch } from 'react-icons/bs';
+import Link from 'next/link';
 
 export default function Search() {
   const [query, setQuery] = useState('');
@@ -10,8 +11,9 @@ export default function Search() {
   const onChange = (e) => {
     const { value } = e.target;
     setQuery(value);
-    if (query < 1) {
+    if (value.length < 1) {
       setNotFound(false);
+      setQueryList([]);
     }
   };
 
@@ -30,7 +32,7 @@ export default function Search() {
           const data = await cities.filter((city) =>
             city.name.toLowerCase().startsWith(query.toLowerCase())
           );
-          console.log('Locations:', data);
+          // console.log('Locations:', data);
           setQueryList(data.slice(0, 100));
         }
       }
@@ -60,9 +62,16 @@ export default function Search() {
           {queryList.map((city) => (
             <li
               key={city.id}
-              className='cursor-pointer rounded-md bg-gray-600/50 py-2 px-6 backdrop-blur-md hover:bg-gray-200/20 hover:backdrop-blur-md'
+              className='rounded-md bg-gray-600/50 py-2 px-6 backdrop-blur-md hover:bg-gray-200/20 hover:backdrop-blur-md'
             >
-              {city.name}, {city.state ? ` ${city.state}, ` : ''} {city.country}
+              <Link
+                href={`/location/${city.id}`}
+                onClick={() => setQuery('')}
+                className='cursor-pointer'
+              >
+                {city.name}, {city.state ? ` ${city.state}, ` : ''}{' '}
+                {city.country}
+              </Link>
             </li>
           ))}
         </ul>

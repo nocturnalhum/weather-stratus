@@ -7,9 +7,6 @@ export default function Layout({ children, title }) {
     <>
       <Head>
         <title>{title ? title + ' - Stratus' : 'Stratus Weather'}</title>
-        <meta name='description' content='Daily and Forecast Weather app' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
       <main className='min-h-screen bg-landscape bg-cover bg-center'>
         {/* Overlay  */}
