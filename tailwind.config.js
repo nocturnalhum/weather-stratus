@@ -11,6 +11,9 @@ const Myclass = plugin(function ({ addUtilities }) {
     '.perspective': {
       perspective: '2000px',
     },
+    '.backface-hidden': {
+      'backface-visibility': 'hidden',
+    },
   });
 });
 module.exports = {

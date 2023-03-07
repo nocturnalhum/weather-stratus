@@ -4,53 +4,48 @@ import Layout from '@/components/Layout';
 import React, { useState } from 'react';
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
+const METEO_URL =
+  'https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.42&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weathercode,surface_pressure,cloudcover,visibility,windspeed_10m,winddirection_10m,windgusts_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant&current_weather=true&timezone=auto';
 
-export default function City({ currentWeather, forecast }) {
-  const [toggle, setToggle] = useState(false);
-  // const [loading, setLoading] = useState(false);
+export default function City({ currentOpenWeather, currentMeteo, forecast }) {
+  const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleToggle = () => {
-    setToggle(!toggle);
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
   };
 
-  console.log('CURRENT WEATHER', currentWeather);
+  console.log('CURRENT WEATHER', currentOpenWeather);
+  console.log('CURRENT METEO', currentMeteo);
   console.log('CURRENT FORECAST', forecast);
+
   return (
-    <div>
-      <Layout title={currentWeather.name}>
-        <div className='group m-auto max-w-3xl px-2 text-white perspective'>
+    <Layout title={currentOpenWeather.name}>
+      <div className=' m-auto max-w-3xl px-2 text-white perspective'>
+        <div className='mx-2 mb-2 flex items-end justify-between'>
+          <h2 className='text-3xl font-semibold'>{currentOpenWeather.name}</h2>
           <button
-            onClick={handleToggle}
-            className='mb-2 w-40  rounded-full bg-black/50 p-2 font-semibold backdrop-blur-sm'
+            onClick={handleClick}
+            className='h-auto w-32 rounded-full bg-black/50 px-4 py-2 font-semibold backdrop-blur-sm'
           >
-            <span>See: </span>
-            {!toggle ? 'Forecast' : 'Current'}
+            <span>{!isFlipped ? 'Forecast' : 'Current'}</span>
           </button>
-          <div
-            className={`relative duration-500 preserve-3d ${
-              toggle ? 'rotate-y-180' : ''
-            }`}
-          >
-            {/* Side One: */}
-            <div
-              className={`absolute z-10 h-full w-full duration-300  ${
-                toggle ? 'opacity-0' : 'opacity-100'
-              }`}
-            >
-              <CurrentWeather current={currentWeather} />
-            </div>
-            {/* Side Two: */}
-            <div
-              className={`absolute h-full w-full duration-300 rotate-y-180 ${
-                toggle ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <ForecastWeather forecast={forecast} />
-            </div>
+        </div>
+        <div
+          className={`relative h-full w-full duration-500 preserve-3d  backface-hidden ${
+            isFlipped ? 'rotate-y-180' : ''
+          }`}
+        >
+          {/* Side One: */}
+          <div className='absolute z-10 h-full w-full backface-hidden'>
+            <CurrentWeather current={currentOpenWeather} />
+          </div>
+          {/* Side Two: */}
+          <div className='absolute h-full w-full rotate-y-180 backface-hidden'>
+            <ForecastWeather forecast={forecast} />
           </div>
         </div>
-      </Layout>
-    </div>
+      </div>
+    </Layout>
   );
 }
 
@@ -66,11 +61,15 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  // Get Weather:
-  const weatherRes = await fetch(
+  // Get Weather OPENWEATHER API:
+  const openWeatherRes = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?id=${cityID}&units=metric&appid=${API_KEY}`
   );
-  const currentWeather = await weatherRes.json();
+  const currentOpenWeather = await openWeatherRes.json();
+
+  // Get Weather METEO API:
+  const meteoRes = await fetch(METEO_URL);
+  const currentMeteo = await meteoRes.json();
 
   // Get Forecast:
   const forecastRes = await fetch(
@@ -78,12 +77,12 @@ export async function getServerSideProps({ params }) {
   );
   const forecast = await forecastRes.json();
 
-  if (!currentWeather || !forecast) {
+  if (!currentOpenWeather || !currentMeteo || !forecast) {
     return {
       notFound: true,
     };
   }
   return {
-    props: { currentWeather, forecast },
+    props: { currentOpenWeather, currentMeteo, forecast },
   };
 }

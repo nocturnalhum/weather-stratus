@@ -21,22 +21,39 @@ export default function Search() {
   };
 
   useEffect(() => {
+    console.log('Debounce', debounceSearch);
     const getLocations = async () => {
       // Prevent illegal query searches:
-      if (/^[!@#$%&*()]+$/.test(debounceSearch)) {
+      if (/[!@#$%^&*()+={}\[\]?<>\/\\?]/g.test(debounceSearch)) {
         setNotFound(true);
         return;
+      } else {
+        setNotFound(false);
       }
       // Get Geo Locations based on query search:
       if (debounceSearch.length < 1) {
         setQueryList([]);
+        return;
       } else {
+        // **********<<< GeoCoding search >>>***************:
         if (debounceSearch.trim().length > 1) {
-          const data = cities.filter((city) =>
-            city.name.toLowerCase().startsWith(debounceSearch.toLowerCase())
+          console.log('Test', debounceSearch);
+          const res = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${debounceSearch}&count=50`
           );
-          // console.log('Locations:', data);
-          setQueryList(data.slice(0, 100));
+          const { results } = await res.json();
+          if (!results) {
+            setQueryList([]);
+            return;
+          }
+          setQueryList(results);
+          // **********<<< cities.list.json search >>>***************:
+          // if (debounceSearch.trim().length > 1) {
+          //   const data = cities.filter((city) =>
+          //     city.name.toLowerCase().startsWith(debounceSearch.toLowerCase())
+          //   );
+          //   // console.log('Locations:', data);
+          //   setQueryList(data.slice(0, 100));
         }
       }
     };
@@ -44,7 +61,7 @@ export default function Search() {
   }, [debounceSearch]);
 
   return (
-    <div className='container relative m-auto max-w-lg py-6'>
+    <div className='relative m-auto max-w-lg py-4'>
       <form
         onSubmit={(e) => e.preventDefault()}
         className='mx-2 flex rounded-xl border p-2 px-4'
@@ -61,7 +78,7 @@ export default function Search() {
         </button>
       </form>
       {queryList.length > 0 && (
-        <ul className='absolute z-20 mt-2 h-64 w-full divide-y divide-gray-200/50 overflow-y-auto rounded-lg bg-gradient-to-t from-transparent to-black/50 text-xl text-gray-200'>
+        <ul className='absolute z-20 mt-2 max-h-56 w-full divide-y divide-gray-200/50 overflow-y-auto rounded-lg bg-gradient-to-t from-black/10 to-white/10 text-xl text-gray-200'>
           {queryList.map((city) => (
             <li
               key={city.id}
@@ -73,7 +90,7 @@ export default function Search() {
                 className='cursor-pointer'
               >
                 <div>
-                  {city.name}, {city.state ? ` ${city.state}, ` : ''}{' '}
+                  {city.name}, {city.admin1 ? ` ${city.admin1}, ` : ''}{' '}
                   {city.country}
                 </div>
               </Link>
@@ -86,7 +103,7 @@ export default function Search() {
           <li
             className={`rounded-md bg-gray-600/50 py-2 px-6 text-orange-400 backdrop-blur-md`}
           >
-            Location not found
+            Character not recognized
           </li>
         </ul>
       )}
