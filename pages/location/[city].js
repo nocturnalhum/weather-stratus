@@ -4,8 +4,9 @@ import Layout from '@/components/Layout';
 import React, { useState } from 'react';
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
-const METEO_URL =
-  'https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=-79.42&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weathercode,surface_pressure,cloudcover,visibility,windspeed_10m,winddirection_10m,windgusts_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant&current_weather=true&timezone=auto';
+
+const METEO_QUERY =
+  'hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weathercode,surface_pressure,cloudcover,visibility,windspeed_10m,winddirection_10m,windgusts_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant&current_weather=true&timezone=auto';
 
 export default function City({ currentOpenWeather, currentMeteo, forecast }) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -41,7 +42,7 @@ export default function City({ currentOpenWeather, currentMeteo, forecast }) {
           </div>
           {/* Side Two: */}
           <div className='absolute h-full w-full rotate-y-180 backface-hidden'>
-            <ForecastWeather forecast={forecast} />
+            {/* <ForecastWeather forecast={forecast} /> */}
           </div>
         </div>
       </div>
@@ -53,27 +54,38 @@ export default function City({ currentOpenWeather, currentMeteo, forecast }) {
 // ===============<<< Get Server Side Props >>>================================
 // ============================================================================
 export async function getServerSideProps({ params }) {
-  const cityID = params.city;
+  // const cityID = params.city;
+  const { 0: lat, 1: lon } = params.city.split('&');
+  console.log('Params', lat, lon);
 
-  if (!cityID) {
+  if (!lat || !lon) {
     return {
       notFound: true,
     };
   }
 
+  // if (!cityID) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
+
   // Get Weather OPENWEATHER API:
   const openWeatherRes = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?id=${cityID}&units=metric&appid=${API_KEY}`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
   );
   const currentOpenWeather = await openWeatherRes.json();
+  console.log('currentOpenWeather', currentOpenWeather);
 
   // Get Weather METEO API:
-  const meteoRes = await fetch(METEO_URL);
+  const meteoRes = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&${METEO_QUERY}`
+  );
   const currentMeteo = await meteoRes.json();
 
   // Get Forecast:
   const forecastRes = await fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?id=${cityID}&units=metric&appid=${API_KEY}`
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
   );
   const forecast = await forecastRes.json();
 

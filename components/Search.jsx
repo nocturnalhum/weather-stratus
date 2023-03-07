@@ -42,6 +42,7 @@ export default function Search() {
             `https://geocoding-api.open-meteo.com/v1/search?name=${debounceSearch}&count=50`
           );
           const { results } = await res.json();
+          console.log('Locations:', results);
           if (!results) {
             setQueryList([]);
             return;
@@ -85,13 +86,13 @@ export default function Search() {
               className='rounded-md bg-gray-600/50 py-2 px-6 backdrop-blur-md hover:bg-gray-200/20 hover:backdrop-blur-md'
             >
               <Link
-                href={`/location/${city.id}`}
+                href={`/location/${city.latitude}&${city.longitude}`}
                 onClick={() => setQuery('')}
                 className='cursor-pointer'
               >
                 <div>
                   {city.name}, {city.admin1 ? ` ${city.admin1}, ` : ''}{' '}
-                  {city.country}
+                  {city.country ? city.country : city.country_code}
                 </div>
               </Link>
             </li>
