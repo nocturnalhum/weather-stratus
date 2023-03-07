@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 import Search from './Search';
-import Temp from './Temp';
 
 export default function Layout({ children, title }) {
   return (
