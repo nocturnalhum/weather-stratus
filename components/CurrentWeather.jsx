@@ -2,7 +2,8 @@ import React from 'react';
 import getTime from '@/lib/getTime';
 import moment from 'moment';
 import Image from 'next/image';
-
+// import { Column, Grid, List } from 'react-virtualized';
+import { FixedSizeList as List } from 'react-window';
 import {
   WiBarometer,
   WiCelsius,
@@ -102,7 +103,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   const { hourly } = currentMeteo;
   let hourlyData = [];
 
-  for (let i = 0; i < 72; i++) {
+  for (let i = 0; i < hourly.time.length; i++) {
     hourlyData.push({
       time: hourly?.time[i],
       temperature_2m: hourly?.temperature_2m[i],
@@ -117,6 +118,10 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   console.log('hourlyData', hourlyData);
 
   const background = 'bg-fuchsia-500/0';
+  console.log('HOURLY TIME', hourlyData[0].time);
+  const Column = ({ index, style }) => (
+    <div style={style}>{moment(hourlyData[index].time).format('ddd D')}</div>
+  );
 
   return (
     <div className='mb-4 min-h-full rounded-2xl border-2 border-gray-600/70 border-r-gray-400 border-t-gray-300/30 bg-gray-600/30 bg-cover p-3 shadow-inner backdrop-blur-md'>
@@ -174,7 +179,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
             </li>
           </ul>
         </div>
-        <div className='h-18 flex flex-col justify-between bg-gray-500/20'>
+        <div className='h-18 flex justify-between bg-gray-500/20'>
           <div className='text-5xl'>{Math.round(main?.temp)}°C</div>
           <div>feels like:{Math.round(main?.feels_like)}°C</div>
           <div className='flex flex-col'>
@@ -194,18 +199,17 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
             </span>
           </div>
         </div>
-        <h1 className='text-2xl font-semibold'>Hourlys</h1>
-        <div className='flex h-56 flex-row space-x-4 overflow-x-auto'>
-          {hourlyData.map((hour) => (
-            <DayWeather
-              key={hour.time}
-              date={hour.time}
-              // Icon={weatherCodeMapping[hour.weathercode]}
-              label={weatherLabelMapping[hour.weathercode]}
-              temperature={hour.temperature_2m}
-            />
-          ))}
-        </div>
+        <h1 className='text-2xl font-semibold'>Hourly:</h1>
+
+        <List
+          height={75}
+          itemCount={hourly.time.length}
+          itemSize={100}
+          layout='horizontal'
+          width={700}
+        >
+          {Column}
+        </List>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import moment from 'moment';
 
 function DayWeather({ label, temperature, date }) {
   return (
-    <div className='mb-4   capitalize text-gray-50'>
+    <div className='mb-4 capitalize text-gray-50'>
       <div className='flex w-36 flex-col items-center justify-center gap-1 rounded-lg bg-blue-300/30 py-4'>
         <span className='text-sm'>{label}</span>
         {/* <Icon
