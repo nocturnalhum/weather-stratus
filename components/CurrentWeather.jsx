@@ -194,16 +194,17 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
             </span>
           </div>
         </div>
-        <h1 className='text-2xl font-semibold'>Hourly:</h1>
+        <h1 className='text-2xl font-semibold'>Hourly</h1>
         <div className='flex h-56 flex-row space-x-4 overflow-x-auto'>
-          {hourlyData.map((hour) => (
-            <DayWeather
-              key={hour.time}
-              // date={hour.time}
-              // Icon={weatherCodeMapping[hour.weathercode]}
-              // label={weatherLabelMapping[hour.weathercode]}
-              temperature={hour.temperature_2m}
-            />
+          {hourlyData.map((hour, index) => (
+            <h1 key={index}>2.2C</h1>
+            // <DayWeather
+            //   key={hour.time}
+            //   // date={hour.time}
+            //   // Icon={weatherCodeMapping[hour.weathercode]}
+            //   // label={weatherLabelMapping[hour.weathercode]}
+            //   temperature={hour.temperature_2m}
+            // />
           ))}
         </div>
       </div>
