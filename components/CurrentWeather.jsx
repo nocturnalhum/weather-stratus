@@ -121,10 +121,10 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   const Column = ({ index, style }) => (
     <div>
       <div style={style}>
-        <div className='mx-2 flex flex-col items-center justify-center gap-2 rounded-lg bg-gray-300/20 p-1'>
+        <div className='mx-2 flex flex-col items-center justify-center gap-2 rounded-lg bg-gray-300/20 p-1 py-4'>
           <span className='text-sm capitalize'>
-            {weatherLabelMapping[81]}
-            {/* {weatherLabelMapping[hourlyData[index].weathercode]} */}
+            {/* {weatherLabelMapping[81]} */}
+            {weatherLabelMapping[hourlyData[index].weathercode]}
           </span>
           <WiDayCloudy
             size={45}
