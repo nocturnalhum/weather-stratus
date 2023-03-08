@@ -2,6 +2,7 @@ import React from 'react';
 import getTime from '@/lib/getTime';
 import moment from 'moment';
 import Image from 'next/image';
+
 import {
   WiBarometer,
   WiCelsius,
@@ -93,35 +94,26 @@ const weatherLabelMapping = {
   99: 'thunderstorm with hail',
 };
 
-export default function CurrentWeather({
-  currentOpenWeather,
-  currentMeteo,
-  forecast,
-}) {
+export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   const { clouds, dt, main, name, sys, timezone, visibility, weather, wind } =
     currentOpenWeather;
-
   console.log('WIND DEG', wind.deg);
 
   const { hourly } = currentMeteo;
-  console.log('hourly', hourly);
-
   let hourlyData = [];
 
-  for (let i = 0; i < hourly.time.length; i++) {
-    if (!hourly) {
-      return;
-    }
+  for (let i = 0; i < hourly?.time?.length; i++) {
     hourlyData.push({
-      time: hourly.time[i],
-      temperature_2m: hourly.temperature_2m[i],
-      rain: hourly.rain[i],
-      showers: hourly.showers[i],
-      snowfall: hourly.snowfall[i],
-      weathercode: hourly.weathercode[i],
-      windspeed_10m: hourly.windspeed_10m[i],
+      time: hourly?.time[i],
+      temperature_2m: hourly?.temperature_2m[i],
+      rain: hourly?.rain[i],
+      showers: hourly?.showers[i],
+      snowfall: hourly?.snowfall[i],
+      weathercode: hourly?.weathercode[i],
+      windspeed_10m: hourly?.windspeed_10m[i],
     });
   }
+
   console.log('hourlyData', hourlyData);
 
   const background = 'bg-fuchsia-500/0';
@@ -202,21 +194,18 @@ export default function CurrentWeather({
             </span>
           </div>
         </div>
-        <h1 className='text-2xl font-semibold'>Hourly:</h1>
-        {/* <div className='flex'> */}
-        {hourlyData.map((item, index) => (
-          <h1 key={index}>{item.temperature_2m}</h1>
-          // )
-
-          // <DayWeather
-          //   key={item.time}
-          //   // date={hour.time}
-          //   // Icon={weatherCodeMapping[hour.weathercode]}
-          //   // label={weatherLabelMapping[hour.weathercode]}
-          //   temperature={item.temperature_2m}
-          // />
-        ))}
-        {/* </div> */}
+        <h1 className='text-2xl font-semibold'>Hourlys</h1>
+        <div className='flex h-56 flex-row space-x-4 overflow-x-auto'>
+          {hourlyData.map((hour) => (
+            <DayWeather
+              key={hour.time}
+              date={hour.time}
+              Icon={weatherCodeMapping[hour.weathercode]}
+              label={weatherLabelMapping[hour.weathercode]}
+              temperature={hour.temperature_2m}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
