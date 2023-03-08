@@ -116,8 +116,6 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
 
   console.log('hourlyData', hourlyData);
 
-  const background = 'bg-fuchsia-500/0';
-
   console.log('HOURLY TIME', hourlyData[0].time);
 
   const Column = ({ index, style }) => (
