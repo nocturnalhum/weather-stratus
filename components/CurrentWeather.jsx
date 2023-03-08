@@ -2,7 +2,6 @@ import React from 'react';
 import getTime from '@/lib/getTime';
 import moment from 'moment';
 import Image from 'next/image';
-// import { Column, Grid, List } from 'react-virtualized';
 import { FixedSizeList as List } from 'react-window';
 import {
   WiBarometer,
@@ -118,7 +117,9 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   console.log('hourlyData', hourlyData);
 
   const background = 'bg-fuchsia-500/0';
+
   console.log('HOURLY TIME', hourlyData[0].time);
+
   const Column = ({ index, style }) => (
     <div style={style}>{moment(hourlyData[index].time).format('ddd D')}</div>
   );
