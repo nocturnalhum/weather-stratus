@@ -101,7 +101,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   const { hourly } = currentMeteo;
   let hourlyData = [];
 
-  const someArray = [1, 2, 3, 4, 5, 6, 7, 8];
+  const someArray = [1, hourly.temperature_2m[3], 2, 3, 4, 5, 6, 7, 8];
   for (let i = 0; i < hourly?.time?.length; i++) {
     hourlyData.push({
       time: hourly?.time[i],
@@ -197,9 +197,10 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
         <h1 className='text-2xl font-semibold'>Hourly:</h1>
         {/* <div className='flex'> */}
         {someArray.map(
-          (item, index) => {
-            return <h1 key={index}>{item}</h1>;
-          }
+          (item, index) => (
+            <h1 key={index}>{item}</h1>
+          )
+
           // <DayWeather
           //   key={hour.time}
           //   // date={hour.time}
