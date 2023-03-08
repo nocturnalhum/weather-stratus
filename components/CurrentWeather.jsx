@@ -200,7 +200,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
             <DayWeather
               key={hour.time}
               date={hour.time}
-              Icon={weatherCodeMapping[hour.weathercode]}
+              // Icon={weatherCodeMapping[hour.weathercode]}
               label={weatherLabelMapping[hour.weathercode]}
               temperature={hour.temperature_2m}
             />
