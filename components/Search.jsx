@@ -21,7 +21,6 @@ export default function Search() {
   };
 
   useEffect(() => {
-    console.log('Debounce', debounceSearch);
     const getLocations = async () => {
       // Prevent illegal query searches:
       if (/[!@#$%^&*()+={}\[\]?<>\/\\?]/g.test(debounceSearch)) {
@@ -37,7 +36,6 @@ export default function Search() {
       } else {
         // **********<<< GeoCoding search >>>***************:
         if (debounceSearch.trim().length > 1) {
-          console.log('Test', debounceSearch);
           const res = await fetch(
             `https://geocoding-api.open-meteo.com/v1/search?name=${debounceSearch}&count=50`
           );

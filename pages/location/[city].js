@@ -4,9 +4,7 @@ import Layout from '@/components/Layout';
 import React, { useState } from 'react';
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
-
-const METEO_QUERY =
-  'hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weathercode,surface_pressure,cloudcover,visibility,windspeed_10m,winddirection_10m,windgusts_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant&current_weather=true&timezone=auto';
+const METEO_QUERY = process.env.NEXT_PUBLIC_METEO_QUERY;
 
 export default function City({ currentOpenWeather, currentMeteo, forecast }) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -38,11 +36,14 @@ export default function City({ currentOpenWeather, currentMeteo, forecast }) {
         >
           {/* Side One: */}
           <div className='absolute z-10 h-full w-full backface-hidden'>
-            <CurrentWeather current={currentOpenWeather} />
+            <CurrentWeather
+              currentOpenWeather={currentOpenWeather}
+              currentMeteo={currentMeteo}
+            />
           </div>
           {/* Side Two: */}
           <div className='absolute h-full w-full rotate-y-180 backface-hidden'>
-            {/* <ForecastWeather forecast={forecast} /> */}
+            <ForecastWeather forecast={forecast} />
           </div>
         </div>
       </div>
@@ -63,12 +64,6 @@ export async function getServerSideProps({ params }) {
       notFound: true,
     };
   }
-
-  // if (!cityID) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
 
   // Get Weather OPENWEATHER API:
   const openWeatherRes = await fetch(
