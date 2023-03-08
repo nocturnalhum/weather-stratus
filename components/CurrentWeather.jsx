@@ -102,7 +102,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   const { hourly } = currentMeteo;
   let hourlyData = [];
 
-  for (let i = 0; i < hourly?.time?.length; i++) {
+  for (let i = 0; i < 10; i++) {
     hourlyData.push({
       time: hourly?.time[i],
       temperature_2m: hourly?.temperature_2m[i],
