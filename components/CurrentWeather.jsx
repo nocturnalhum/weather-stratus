@@ -196,8 +196,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
         </div>
         <h1 className='text-2xl font-semibold'>Hourlys</h1>
         <div className='flex h-56 flex-row space-x-4 overflow-x-auto'>
-          TEST COMPONENT
-          {/* {hourlyData.map((hour) => (
+          {hourlyData.map((hour) => (
             <DayWeather
               key={hour.time}
               date={hour.time}
@@ -205,7 +204,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
               label={weatherLabelMapping[hour.weathercode]}
               temperature={hour.temperature_2m}
             />
-          ))} */}
+          ))}
         </div>
       </div>
     </div>
