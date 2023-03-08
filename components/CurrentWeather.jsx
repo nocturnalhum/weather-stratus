@@ -2,7 +2,6 @@ import React from 'react';
 import getTime from '@/lib/getTime';
 import moment from 'moment';
 import Image from 'next/image';
-
 import {
   WiBarometer,
   WiCelsius,
@@ -102,6 +101,7 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   const { hourly } = currentMeteo;
   let hourlyData = [];
 
+  const someArray = [1, 2, 3, 4, 5, 6, 7, 8];
   for (let i = 0; i < hourly?.time?.length; i++) {
     hourlyData.push({
       time: hourly?.time[i],
@@ -196,9 +196,9 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
         </div>
         <h1 className='text-2xl font-semibold'>Hourly:</h1>
         {/* <div className='flex'> */}
-        {hourlyData.map(
-          (hour, index) => {
-            return <h1 key={index}>21.2C</h1>;
+        {someArray.map(
+          (item, index) => {
+            return <h1 key={index}>{item}</h1>;
           }
           // <DayWeather
           //   key={hour.time}
