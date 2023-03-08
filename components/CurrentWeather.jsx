@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import getTime from '@/lib/getTime';
 import moment from 'moment';
@@ -205,16 +207,16 @@ export default function CurrentWeather({
         <h1 className='text-2xl font-semibold'>Hourly:</h1>
         {/* <div className='flex'> */}
         {hourlyData.map((item, index) => (
-          //   <h1 key={index}>{item}</h1>
+          <h1 key={index}>{item.temperature_2m}</h1>
           // )
 
-          <DayWeather
-            key={item.time}
-            // date={hour.time}
-            // Icon={weatherCodeMapping[hour.weathercode]}
-            // label={weatherLabelMapping[hour.weathercode]}
-            temperature={item.temperature_2m}
-          />
+          // <DayWeather
+          //   key={item.time}
+          //   // date={hour.time}
+          //   // Icon={weatherCodeMapping[hour.weathercode]}
+          //   // label={weatherLabelMapping[hour.weathercode]}
+          //   temperature={item.temperature_2m}
+          // />
         ))}
         {/* </div> */}
       </div>
