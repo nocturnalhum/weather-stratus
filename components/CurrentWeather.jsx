@@ -74,21 +74,21 @@ const weatherLabelMapping = {
   55: 'dense drizzle',
   56: 'light freezing drizzle',
   57: 'dense freezing drizzle',
-  61: 'slight rain',
+  61: 'light rain',
   63: 'moderate rain',
   65: 'heavy rain',
   66: 'light freezing rain',
   67: 'heavy freezing rain',
-  71: 'slight snowfall',
+  71: 'light snowfall',
   73: 'moderate snowfall',
   75: 'heavy snowfall',
   77: 'hail',
-  80: 'slight rain showers',
+  80: 'light rain showers',
   81: 'moderate rain showers',
   82: 'violent rain showers',
-  85: 'slight snow showers',
+  85: 'light snow showers',
   86: 'heavy snow showers',
-  95: 'slight thunderstorm',
+  95: 'light thunderstorm',
   96: 'moderate thunderstorm',
   99: 'thunderstorm with hail',
 };
@@ -212,14 +212,12 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
 
 function DayWeather({ Icon, label, temperature, date }) {
   return (
-    <div className='mb-4 rounded-lg bg-blue-300/20 capitalize text-gray-50'>
-      <div className='flex w-24 flex-col items-center justify-center gap-1 py-6'>
-        <span className='mb-1 text-sm'>{label}</span>
+    <div className='mb-4 rounded-lg bg-sky-400/20 capitalize text-gray-50 shadow-md'>
+      <div className='flex w-36 flex-col items-center justify-center gap-1 py-4'>
+        <span className='text-sm'>{label}</span>
         <Icon size={45} color={'white'} />
-        <span className='flex items-center text-lg'>
-          {temperature}
-          <WiCelsius size={35} color={'white'} />
-        </span>
+        <span className='mb-2 flex items-center text-lg'>{temperature}°C</span>
+        <span className='text-sm'>{moment(date).format('dddd D')}</span>
         <span className='text-sm'>{moment(date).format('h:mm A')}</span>
       </div>
     </div>
