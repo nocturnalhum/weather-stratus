@@ -65,31 +65,36 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  // Get Weather OPENWEATHER API:
-  const openWeatherRes = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
-  );
-  const currentOpenWeather = await openWeatherRes.json();
-  console.log('currentOpenWeather', currentOpenWeather);
+  try {
+    // Get Weather OPENWEATHER API:
+    const openWeatherRes = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+    );
+    const currentOpenWeather = await openWeatherRes.json();
+    console.log('currentOpenWeather', currentOpenWeather);
 
-  // Get Weather METEO API:
-  const meteoRes = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&${METEO_QUERY}`
-  );
-  const currentMeteo = await meteoRes.json();
+    // Get Weather METEO API:
+    const meteoRes = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&${METEO_QUERY}`
+    );
+    const currentMeteo = await meteoRes.json();
 
-  // Get Forecast:
-  const forecastRes = await fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
-  );
-  const forecast = await forecastRes.json();
+    // Get Forecast:
+    const forecastRes = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+    );
+    const forecast = await forecastRes.json();
 
-  if (!currentOpenWeather || !currentMeteo || !forecast) {
+    if (!currentOpenWeather || !currentMeteo || !forecast) {
+      return {
+        notFound: true,
+      };
+    }
+
     return {
-      notFound: true,
+      props: { currentOpenWeather, currentMeteo, forecast },
     };
+  } catch (error) {
+    console.log(error.message);
   }
-  return {
-    props: { currentOpenWeather, currentMeteo, forecast },
-  };
 }
