@@ -195,10 +195,10 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
           </div>
         </div>
         <h1 className='text-2xl font-semibold'>Hourly:</h1>
-        <div className='flex h-56 flex-row space-x-4 overflow-x-auto'>
+        <div className='flex'>
           {hourlyData.map(
             (hour, index) => {
-              return <h1 key={index}>2.2C</h1>;
+              return <h1 key={index}>21.2C</h1>;
             }
             // <DayWeather
             //   key={hour.time}
