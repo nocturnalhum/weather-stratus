@@ -195,20 +195,20 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
           </div>
         </div>
         <h1 className='text-2xl font-semibold'>Hourly:</h1>
-        <div className='flex'>
-          {hourlyData.map(
-            (hour, index) => {
-              return <h1 key={index}>21.2C</h1>;
-            }
-            // <DayWeather
-            //   key={hour.time}
-            //   // date={hour.time}
-            //   // Icon={weatherCodeMapping[hour.weathercode]}
-            //   // label={weatherLabelMapping[hour.weathercode]}
-            //   temperature={hour.temperature_2m}
-            // />
-          )}
-        </div>
+        {/* <div className='flex'> */}
+        {hourlyData.map(
+          (hour, index) => {
+            return <h1 key={index}>21.2C</h1>;
+          }
+          // <DayWeather
+          //   key={hour.time}
+          //   // date={hour.time}
+          //   // Icon={weatherCodeMapping[hour.weathercode]}
+          //   // label={weatherLabelMapping[hour.weathercode]}
+          //   temperature={hour.temperature_2m}
+          // />
+        )}
+        {/* </div> */}
       </div>
     </div>
   );
