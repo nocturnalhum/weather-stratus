@@ -71,27 +71,27 @@ const weatherLabelMapping = {
   45: 'fog',
   48: 'depositing rime fog',
   51: 'light drizzle',
-  53: 'moderate drizzle',
+  53: 'mod. drizzle',
   55: 'dense drizzle',
   56: 'light freezing drizzle',
   57: 'dense freezing drizzle',
   61: 'light rain',
-  63: 'moderate rain',
+  63: 'mod. rain',
   65: 'heavy rain',
   66: 'light freezing rain',
   67: 'heavy freezing rain',
   71: 'light snowfall',
-  73: 'moderate snowfall',
+  73: 'mod. snowfall',
   75: 'heavy snowfall',
   77: 'hail',
   80: 'light rain showers',
-  81: 'moderate rain showers',
+  81: 'mod. rain showers',
   82: 'violent rain showers',
   85: 'light snow showers',
   86: 'heavy snow showers',
   95: 'light thunderstorm',
-  96: 'moderate thunderstorm',
-  99: 'thunderstorm with hail',
+  96: 'mod. thunderstorm',
+  99: 'thunderstorm & hail',
 };
 
 export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
@@ -119,7 +119,23 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
   console.log('HOURLY TIME', hourlyData[0].time);
 
   const Column = ({ index, style }) => (
-    <div style={style}>{moment(hourlyData[index].time).format('ddd D')}</div>
+    <div>
+      <div style={style}>
+        <div className='mx-2 flex flex-col items-center justify-center gap-2 rounded-lg bg-gray-300/20 p-1'>
+          <span className='text-sm capitalize'>
+            {weatherLabelMapping[81]}
+            {/* {weatherLabelMapping[hourlyData[index].weathercode]} */}
+          </span>
+          <WiDayCloudy
+            size={45}
+            color={'white'}
+            className='rounded-full border-2 border-l-gray-500/50 border-b-gray-700/50 border-t-gray-300/50 bg-slate-500 backdrop-blur-md'
+          />
+          <span>{moment(hourlyData[index].time).format('dddd D')}</span>
+          <span>{moment(hourlyData[index].time).format('h:mm A')}</span>
+        </div>
+      </div>
+    </div>
   );
 
   return (
@@ -198,12 +214,12 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
             </span>
           </div>
         </div>
-        <h1 className='text-2xl font-semibold'>Hourly:</h1>
+        <h1 className='text-2xl font-semibold'>Hourly</h1>
 
         <List
-          height={75}
+          height={200}
           itemCount={hourly.time.length}
-          itemSize={100}
+          itemSize={180}
           layout='horizontal'
           width={700}
         >
