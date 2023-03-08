@@ -13,9 +13,9 @@ export default function City({ currentOpenWeather, currentMeteo, forecast }) {
     setIsFlipped(!isFlipped);
   };
 
-  console.log('CURRENT WEATHER', currentOpenWeather);
-  console.log('CURRENT METEO', currentMeteo);
-  console.log('CURRENT FORECAST', forecast);
+  // console.log('CURRENT WEATHER', currentOpenWeather);
+  // console.log('CURRENT METEO', currentMeteo);
+  // console.log('CURRENT FORECAST', forecast);
 
   return (
     <Layout title={currentOpenWeather.name}>
@@ -65,36 +65,32 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  try {
-    // Get Weather OPENWEATHER API:
-    const openWeatherRes = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
-    );
-    const currentOpenWeather = await openWeatherRes.json();
-    console.log('currentOpenWeather', currentOpenWeather);
+  // Get Weather OPENWEATHER API:
+  const openWeatherRes = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+  );
+  const currentOpenWeather = await openWeatherRes.json();
+  console.log('currentOpenWeather', currentOpenWeather);
 
-    // Get Weather METEO API:
-    const meteoRes = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&${METEO_QUERY}`
-    );
-    const currentMeteo = await meteoRes.json();
+  // Get Weather METEO API:
+  const meteoRes = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&${METEO_QUERY}`
+  );
+  const currentMeteo = await meteoRes.json();
 
-    // Get Forecast:
-    const forecastRes = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
-    );
-    const forecast = await forecastRes.json();
+  // Get Forecast:
+  const forecastRes = await fetch(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+  );
+  const forecast = await forecastRes.json();
 
-    if (!currentOpenWeather || !currentMeteo || !forecast) {
-      return {
-        notFound: true,
-      };
-    }
-
+  if (!currentOpenWeather || !currentMeteo || !forecast) {
     return {
-      props: { currentOpenWeather, currentMeteo, forecast },
+      notFound: true,
     };
-  } catch (error) {
-    console.log(error.message);
   }
+
+  return {
+    props: { currentOpenWeather, currentMeteo, forecast },
+  };
 }

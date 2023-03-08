@@ -93,27 +93,36 @@ const weatherLabelMapping = {
   99: 'thunderstorm with hail',
 };
 
-export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
+export default function CurrentWeather({
+  currentOpenWeather,
+  currentMeteo,
+  forecast,
+}) {
   const { clouds, dt, main, name, sys, timezone, visibility, weather, wind } =
     currentOpenWeather;
+
   console.log('WIND DEG', wind.deg);
 
   const { hourly } = currentMeteo;
+  console.log('hourly', hourly);
+
   let hourlyData = [];
 
   const someArray = [1, hourly.temperature_2m[3], 2, 3, 4, 5, 6, 7, 8];
-  for (let i = 0; i < hourly?.time?.length; i++) {
+  for (let i = 0; i < hourly.time.length; i++) {
+    if (!hourly) {
+      return;
+    }
     hourlyData.push({
-      time: hourly?.time[i],
-      temperature_2m: hourly?.temperature_2m[i],
-      rain: hourly?.rain[i],
-      showers: hourly?.showers[i],
-      snowfall: hourly?.snowfall[i],
-      weathercode: hourly?.weathercode[i],
-      windspeed_10m: hourly?.windspeed_10m[i],
+      time: hourly.time[i],
+      temperature_2m: hourly.temperature_2m[i],
+      rain: hourly.rain[i],
+      showers: hourly.showers[i],
+      snowfall: hourly.snowfall[i],
+      weathercode: hourly.weathercode[i],
+      windspeed_10m: hourly.windspeed_10m[i],
     });
   }
-
   console.log('hourlyData', hourlyData);
 
   const background = 'bg-fuchsia-500/0';
@@ -196,19 +205,18 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
         </div>
         <h1 className='text-2xl font-semibold'>Hourly:</h1>
         {/* <div className='flex'> */}
-        {someArray.map(
-          (item, index) => (
-            <h1 key={index}>{item}</h1>
-          )
+        {hourlyData.map((item, index) => (
+          //   <h1 key={index}>{item}</h1>
+          // )
 
-          // <DayWeather
-          //   key={hour.time}
-          //   // date={hour.time}
-          //   // Icon={weatherCodeMapping[hour.weathercode]}
-          //   // label={weatherLabelMapping[hour.weathercode]}
-          //   temperature={hour.temperature_2m}
-          // />
-        )}
+          <DayWeather
+            key={item.time}
+            // date={hour.time}
+            // Icon={weatherCodeMapping[hour.weathercode]}
+            // label={weatherLabelMapping[hour.weathercode]}
+            temperature={item.temperature_2m}
+          />
+        ))}
         {/* </div> */}
       </div>
     </div>
