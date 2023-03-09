@@ -73,8 +73,8 @@ const weatherLabelMapping = {
   51: 'light drizzle',
   53: 'mod. drizzle',
   55: 'dense drizzle',
-  56: 'light freezing drizzle',
-  57: 'dense freezing drizzle',
+  56: 'low freezing drizzle',
+  57: 'high freezing drizzle',
   61: 'light rain',
   63: 'mod. rain',
   65: 'heavy rain',
@@ -118,75 +118,74 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
 
   console.log('HOURLY TIME', hourlyData[0].time);
 
-  const Column = ({ index, style }) => (
-    <div>
-      <div style={style}>
-        <div className='mx-2 flex flex-col items-center justify-center gap-2 rounded-lg bg-gray-300/20 p-1 py-4'>
+  const Column = ({ index, style }) => {
+    let Icon = weatherCodeMapping[hourlyData[index].weathercode];
+    return (
+      <ul style={style}>
+        <li className='mx-2 flex h-40  flex-col items-center justify-center gap-2 rounded-lg bg-blue-300/20 py-4'>
           <span className='text-sm capitalize'>
-            {/* {weatherLabelMapping[81]} */}
+            {/* {weatherLabelMapping[57]} */}
             {weatherLabelMapping[hourlyData[index].weathercode]}
           </span>
-          <WiDayCloudy
-            size={45}
-            color={'white'}
-            className='rounded-full border-2 border-l-gray-500/50 border-b-gray-700/50 border-t-gray-300/50 bg-slate-500 backdrop-blur-md'
-          />
+          <span className='flex items-center text-2xl font-medium'>
+            {hourlyData[index].temperature_2m}
+            <Icon size={35} color={'white'} className='' />
+          </span>
           <span>{moment(hourlyData[index].time).format('dddd D')}</span>
           <span>{moment(hourlyData[index].time).format('h:mm A')}</span>
-        </div>
-      </div>
-    </div>
-  );
-
+        </li>
+      </ul>
+    );
+  };
   return (
     <div className='mb-4 min-h-full rounded-2xl border-2 border-gray-600/70 border-r-gray-400 border-t-gray-300/30 bg-gray-600/30 bg-cover p-3 shadow-inner backdrop-blur-md'>
       <div className='grid min-h-full grid-cols-1 gap-4 text-white'>
         <div className='h-16 rounded-xl bg-gray-300/20 p-2 shadow-lg shadow-gray-900/30 backdrop-blur-sm'>
           <ul className='flex justify-between text-sm'>
             <li className='flex flex-col items-center justify-center'>
-              <span className='mb-1 text-base font-semibold'>Humidity</span>
+              <span className='mb-1 font-semibold'>Humidity</span>
               <span className='flex items-center justify-start gap-1'>
                 <WiHumidity
-                  size={20}
+                  size={15}
                   color={'white'}
                   className='rounded-full border'
                 />
-                {main.humidity} %
+                {main.humidity}%
               </span>
             </li>
             <li className='flex flex-col items-center justify-center'>
-              <span className='mb-1 text-base font-semibold'>Pressure</span>
+              <span className='mb-1  font-semibold'>Pressure</span>
               <span className='flex items-center justify-start gap-1'>
                 <WiBarometer
-                  size={20}
+                  size={15}
                   color={'white'}
                   className='rounded-full border'
                 />
-                {main.pressure} hPa
+                {main.pressure}hPa
               </span>
             </li>
             <li className='flex flex-col items-center justify-center'>
-              <span className='mb-1 text-base font-semibold'>Visibility</span>
+              <span className='mb-1  font-semibold'>Visibility</span>
               <span className='flex items-center justify-start gap-1'>
                 <ImEye
                   size={15}
                   color={'white'}
                   className='rounded-full border'
                 />
-                {`> ${Math.round(visibility / 1000)} km`}
+                {`${Math.round(visibility / 1000)}km`}
               </span>
             </li>
             <li className='flex flex-col items-center justify-center'>
-              <span className='mb-1 text-base font-semibold'>Wind</span>
+              <span className='mb-1  font-semibold'>Wind</span>
               <span className='flex items-center justify-start gap-1'>
                 <WiStrongWind
-                  size={20}
+                  size={15}
                   color={'white'}
                   className='rounded-full border'
                 />
-                {wind.speed} m/s
+                {wind.speed}m/s
                 <WiWindDeg
-                  size={20}
+                  size={15}
                   color={'white'}
                   style={{ transform: `rotate(${wind.deg + 180}deg)` }}
                 />
@@ -215,13 +214,13 @@ export default function CurrentWeather({ currentOpenWeather, currentMeteo }) {
           </div>
         </div>
         <h1 className='text-2xl font-semibold'>Hourly</h1>
-
         <List
+          className='overflow-x-hidden'
           height={200}
           itemCount={hourly.time.length}
-          itemSize={180}
+          itemSize={160}
           layout='horizontal'
-          width={700}
+          width={725}
         >
           {Column}
         </List>
