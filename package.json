@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-virtual": "^3.0.0-beta.54",
     "date-fns": "^2.29.3",
     "date-fns-tz": "^2.0.0",
     "eslint": "8.35.0",
@@ -19,7 +20,8 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
     "react-virtualized-auto-sizer": "^1.0.7",
-    "react-window": "^1.8.8"
+    "react-window": "^1.8.8",
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
