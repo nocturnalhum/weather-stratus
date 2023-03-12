@@ -4,7 +4,7 @@ import { WiHorizon, WiHorizonAlt } from 'react-icons/wi';
 
 export default function Main({ main, sys, timezone }) {
   return (
-    <div className='h-18 flex justify-between bg-gray-500/20'>
+    <div className='flex h-32 justify-between bg-gray-500/20'>
       <div className='text-5xl'>{Math.round(main?.temp)}°C</div>
       <div>feels like:{Math.round(main?.feels_like)}°C</div>
       <div className='flex flex-col'>

@@ -9,11 +9,11 @@ export default function Layout({ children, title }) {
         <title>{title ? title + ' - Stratus' : 'Stratus Weather'}</title>
       </Head>
 
-      <main className='relative min-h-screen overflow-y-auto bg-landscape bg-cover bg-center'>
+      <main className='relative min-h-screen overflow-auto bg-landscape bg-cover bg-center'>
         {/* Overlay  */}
         <div className='fixed inset-0 bg-black/50'></div>
         <Search className='z-20' />
-        {children}
+        <div className='min-h-[calc(100vh-5rem)]'>{children}</div>
       </main>
     </>
   );

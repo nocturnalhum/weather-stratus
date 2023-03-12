@@ -46,13 +46,6 @@ export default function Search() {
             return;
           }
           setQueryList(results);
-          // **********<<< cities.list.json search >>>***************:
-          // if (debounceSearch.trim().length > 1) {
-          //   const data = cities.filter((city) =>
-          //     city.name.toLowerCase().startsWith(debounceSearch.toLowerCase())
-          //   );
-          //   // console.log('Locations:', data);
-          //   setQueryList(data.slice(0, 100));
         }
       }
     };

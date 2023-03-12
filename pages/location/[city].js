@@ -36,7 +36,7 @@ export default function City({ currentOpenWeather, currentMeteo, forecast }) {
           }`}
         >
           {/* Side One: */}
-          <div className='absolute z-10 h-full w-full backface-hidden'>
+          <div className='absolute z-10 flex h-full w-full backface-hidden'>
             <CurrentWeather
               currentOpenWeather={currentOpenWeather}
               currentMeteo={currentMeteo}
